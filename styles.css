@@ -10,3 +10,7 @@
 
 /* v3 admin streamer dropdown controls */
 .admin-streamer-tools{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 16px}.tool-card{border:1px solid #2a2e26;border-radius:8px;background:rgba(0,0,0,.18);padding:14px}.tool-card label{display:grid;gap:8px;color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:1px;margin-bottom:12px}.tool-card .add-btn,.tool-card .ghost{width:100%;text-align:center}.streamer-event-row select{min-width:0}@media(max-width:900px){.admin-streamer-tools{grid-template-columns:1fr}}
+
+
+/* v4 Contract Twist controls */
+.twist-editor{margin-top:26px;border:1px solid #2a2e26;border-radius:10px;background:rgba(0,0,0,.18);padding:0;overflow:hidden}.twist-editor summary{cursor:pointer;padding:16px 18px;color:var(--gold);font-weight:950;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #2a2e26}.twist-editor[open] summary{background:rgba(215,166,56,.06)}.twist-editor p{padding:0 18px}.twist-list{display:grid;gap:10px;padding:0 18px 14px}.twist-row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center}.twist-row input[type="checkbox"]{width:18px;height:18px}.twist-row input[type="text"]{width:100%}.twist-add-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:0 18px 18px}.twist-add-row .add-btn,.twist-add-row .ghost{white-space:nowrap}.contract-twist-off{color:var(--muted);font-style:italic}@media(max-width:900px){.twist-add-row{grid-template-columns:1fr}.twist-row{grid-template-columns:1fr}}

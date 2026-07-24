@@ -48,6 +48,7 @@
           <label>Event Name<input id="eventName" value="Friday Night Mayhem" /></label>
           <label>Map<select id="mapName"></select></label>
           <div class="field-group"><span>Time</span><div class="segmented"><button id="dayBtn" class="active">☀ Day</button><button id="nightBtn">☾ Night</button></div></div>
+          <label>Contract Twist Mode<select id="twistModeSelect"><option value="individual">One Twist Per Streamer</option><option value="squad">One Twist For Squad</option><option value="off">Off</option></select></label>
           <button id="randomizeBtn" class="primary">🎲 Randomize Loadouts</button>
           <p class="helper">Only streamers marked <b>Playing</b> and <b>Ready</b> are included.</p>
           <div class="rule-box"><strong>★ The Rule</strong><p>You may mod your weapon however you want, but you must use the assigned gun.</p><span>Good luck out there, PMC.</span></div>
@@ -68,6 +69,12 @@
           <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Rubles</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingBody"></tbody></table></div>
           <div class="section-break"><h3>Not Playing <span id="notPlayingCount" class="count">0</span></h3></div>
           <div class="table-wrap muted-table"><table><tbody id="notPlayingBody"></tbody></table></div>
+          <details class="twist-editor" id="twistEditorDetails">
+            <summary>Contract Twist</summary>
+            <p class="muted">These are the twist choices used when contracts are generated. This list is saved per event.</p>
+            <div id="twistList" class="twist-list"></div>
+            <div class="twist-add-row"><input id="newTwistInput" placeholder="Add new PVE-friendly twist" /><button id="addTwistBtn" class="add-btn">Add Twist</button><button id="removeCheckedTwistsBtn" class="ghost danger-btn">Remove Checked</button></div>
+          </details>
         </section>
       </section>
       <section id="streamer" class="view">
@@ -100,7 +107,7 @@
         </section>
       </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>Event Manager v3</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>Event Manager v4 Twists</span></footer>
   </div>
   <script src="script.js"></script>
 </body>
