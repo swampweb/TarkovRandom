@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CajunVeteran Raid Roulette</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Stream Event Tool</div>
+        <h1 id="heroTitle">CajunVeteran Raid Roulette</h1>
+        <p>Admin sets the raid. Streamers enter level and budget. When everyone is green, admin rolls the random Tarkov loadouts.</p>
+      </div>
+      <nav class="tabs">
+        <button class="tab active" data-view="admin">Admin Setup</button>
+        <button class="tab" data-view="viewer">Streamer Entry</button>
+        <button class="tab" data-view="dashboard">Dashboard</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="adminView" class="view active-view">
+        <div class="grid admin-grid">
+          <section class="card setup-card">
+            <h2>Admin Setup</h2>
+            <label>Event Name
+              <input id="eventName" type="text" value="CajunVeteran Raid Roulette" />
+            </label>
+            <label>Map
+              <select id="mapName">
+                <option>Customs</option><option>Woods</option><option>Factory</option><option>Interchange</option><option>Reserve</option><option>Shoreline</option><option>Lighthouse</option><option>Streets</option><option>Ground Zero</option><option>Labs</option><option>Random Map</option>
+              </select>
+            </label>
+            <div>
+              <label class="plain-label">Time</label>
+              <div class="toggle-row">
+                <button id="dayBtn" class="choice active-choice">Day</button>
+                <button id="nightBtn" class="choice">Night</button>
+              </div>
+            </div>
+            <div id="readyBox" class="status-box waiting">
+              <strong>Waiting on players</strong>
+              <span>Random button unlocks when everyone has name, level, money, and ready status.</span>
+            </div>
+            <button id="randomBtn" class="primary" disabled>Randomize Loadouts</button>
+          </section>
+
+          <section class="card players-card">
+            <div class="section-header">
+              <h2>Player Control</h2>
+              <button id="addPlayerBtn" class="secondary">+ Add Player</button>
+            </div>
+            <div id="playersList" class="players-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="viewerView" class="view">
+        <section class="card viewer-card">
+          <h2>Streamer Entry Page</h2>
+          <p class="muted">Streamer picks their name, enters level and available kit money, then marks ready.</p>
+          <div class="viewer-select-grid">
+            <label>Choose Your Name
+              <select id="viewerSelect"></select>
+            </label>
+            <div id="viewerStatus" class="viewer-status"></div>
+          </div>
+          <div id="viewerForm" class="viewer-form"></div>
+        </section>
+      </section>
+
+      <section id="dashboardView" class="view">
+        <section class="card dash-header">
+          <div>
+            <div class="muted">Dashboard</div>
+            <h2 id="dashTitle">Customs - Day Raid</h2>
+            <strong id="squadRule" class="yellow"></strong>
+            <div id="rolledTime" class="muted small"></div>
+          </div>
+          <div class="dash-actions">
+            <button id="dashAdminBtn" class="secondary">Admin</button>
+            <button id="rerollBtn" class="secondary" disabled>Reroll</button>
+            <button id="copyBtn" class="light" disabled>Copy Results</button>
+          </div>
+        </section>
+        <section id="resultsArea" class="results-empty">No random loadouts yet. Admin must wait until everyone is green, then click <strong>Randomize Loadouts</strong>.</section>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
