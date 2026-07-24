@@ -55,6 +55,16 @@
         </aside>
         <section class="card main-panel">
           <div class="panel-title-row"><div><h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2><p class="muted">Manage who is active for this random roll.</p></div><button id="addStreamerBtn" class="add-btn">＋ Add Streamer</button></div>
+          <div class="admin-streamer-tools">
+            <div class="tool-card">
+              <label>Add Saved Streamer To Loaded Event<select id="adminStreamerSelect"></select></label>
+              <button id="addSelectedStreamerBtn" class="add-btn">Add Selected Streamer</button>
+            </div>
+            <div class="tool-card">
+              <label>Delete Streamer From System<select id="deleteStreamerSelect"></select></label>
+              <button id="deleteStreamerBtn" class="ghost danger-btn">Delete Streamer</button>
+            </div>
+          </div>
           <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Rubles</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingBody"></tbody></table></div>
           <div class="section-break"><h3>Not Playing <span id="notPlayingCount" class="count">0</span></h3></div>
           <div class="table-wrap muted-table"><table><tbody id="notPlayingBody"></tbody></table></div>
@@ -65,7 +75,7 @@
           <div class="streamer-head"><div><h2>Streamer Entry</h2><p class="muted">Enter the event code, pick your name, update level and rubles, then mark ready.</p></div><div class="event-code small-code"><span>Event Code</span><strong id="eventCodePlayer">CV7264</strong></div></div>
           <div class="entry-grid">
             <div class="entry-left">
-              <div class="streamer-event-row"><input id="streamerEventCodeInput" class="event-code-input" value="CV7264" maxlength="16" /><button id="streamerLoadEventBtn" class="mini-btn">Load</button></div>
+              <div class="streamer-event-row"><select id="streamerEventSelect"></select><button id="streamerLoadEventBtn" class="mini-btn">Load</button></div>
               <label>Your Streamer Name<select id="streamerSelect"></select></label>
               <div class="name-create-row"><input id="newStreamerName" placeholder="Name not listed? Type name" /><button id="createStreamerBtn" class="mini-btn">Create Name</button></div>
               <div id="streamerStatus" class="status-card"></div>
@@ -90,7 +100,7 @@
         </section>
       </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>Event Manager v1</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>Event Manager v3</span></footer>
   </div>
   <script src="script.js"></script>
 </body>

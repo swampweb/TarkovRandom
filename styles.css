@@ -6,3 +6,7 @@
 
 /* v2 report streamer assignment tweaks */
 .report-list li{margin-bottom:8px}.report-list li .action-btn{margin-left:8px;padding:6px 9px;font-size:11px}.event-actions-cell{display:flex;gap:8px;flex-wrap:wrap}.report-card h3{margin-top:0}
+
+
+/* v3 admin streamer dropdown controls */
+.admin-streamer-tools{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 16px}.tool-card{border:1px solid #2a2e26;border-radius:8px;background:rgba(0,0,0,.18);padding:14px}.tool-card label{display:grid;gap:8px;color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:1px;margin-bottom:12px}.tool-card .add-btn,.tool-card .ghost{width:100%;text-align:center}.streamer-event-row select{min-width:0}@media(max-width:900px){.admin-streamer-tools{grid-template-columns:1fr}}
