@@ -28,8 +28,9 @@ const helmetPool = [
 const rigPool = [{ name: "No rig", cost: 0 }, { name: "Scav vest", cost: 10000 }, { name: "Bank robber rig", cost: 15000 }, { name: "Any small rig", cost: 25000 }, { name: "Any armored rig", cost: 70000 }, { name: "Biggest ugly rig in stash", cost: 45000 }];
 const backpackPool = [{ name: "No backpack", cost: 0 }, { name: "Sling", cost: 8000 }, { name: "T-Bag", cost: 12000 }, { name: "Day Pack", cost: 18000 }, { name: "Berkut/Scav BP", cost: 30000 }, { name: "Biggest backpack available", cost: 65000 }];
 const challengePool = ["Must push first gunshot heard", "No looting until first kill", "One teammate calls all extracts", "If you find food, you must eat it immediately", "First locked door found becomes the squad objective", "Boss hunt if boss spawns", "Only one mag loaded at a time", "Grenades must be thrown dramatically", "Everyone must use voicelines before fighting", "If SilverFoxJonesy says stairs, squad rotates stairs"];
-const defaultState = { eventName: "CajunVeteran Raid Roulette", mapName: "Customs", timeOfDay: "Day", players: [{ id: crypto.randomUUID(), name: "CajunVeteran", level: 30, money: 550000, ready: true }, { id: crypto.randomUUID(), name: "SilverFoxJonesy", level: 15, money: 250000, ready: false }], results: [], lastRolledAt: "", squadRule: pickRandom(challengePool) };
+const defaultState = { eventName: "CajunVeteran Raid Roulette", mapName: "Customs", timeOfDay: "Day", players: [{ id: crypto.randomUUID(), name: "CajunVeteran", level: 30, money: 550000, ready: true, active: true }, { id: crypto.randomUUID(), name: "SilverFoxJonesy", level: 15, money: 250000, ready: false, active: true }], results: [], lastRolledAt: "", squadRule: pickRandom(challengePool) };
 let state = loadState();
+state.players = state.players.map(p => ({ ...p, active: p.active !== false }));
 let selectedViewerId = state.players[0]?.id || "";
 function saveState(){ localStorage.setItem("cvRaidRoulette", JSON.stringify(state)); }
 function loadState(){ try { return JSON.parse(localStorage.getItem("cvRaidRoulette")) || defaultState; } catch { return defaultState; } }
@@ -37,7 +38,8 @@ function pickRandom(items){ return items[Math.floor(Math.random()*items.length)]
 function money(value){ return new Intl.NumberFormat("en-US").format(Number(value || 0)); }
 function allowedByLevelAndMoney(list, level, budget){ return list.filter(item => item.minLevel <= Number(level || 1) && item.cost <= Number(budget || 0)); }
 function allowedGear(list, budget, currentTotal=0){ return list.filter(item => item.cost + currentTotal <= Number(budget || 0)); }
-function allReady(){ return state.players.length > 0 && state.players.every(p => p.ready && p.name && Number(p.level) > 0 && Number(p.money) > 0); }
+function activePlayers(){ return state.players.filter(p => p.active !== false); }
+function allReady(){ const playing = activePlayers(); return playing.length > 0 && playing.every(p => p.ready && p.name && Number(p.level) > 0 && Number(p.money) > 0); }
 function generateLoadout(player){
   const level = Number(player.level || 1); const budget = Number(player.money || 0);
   const weaponOptions = allowedByLevelAndMoney(weaponPool, level, budget);
@@ -56,24 +58,26 @@ function render(){
   document.getElementById("mapName").value = state.mapName;
   document.getElementById("dayBtn").classList.toggle("active-choice", state.timeOfDay === "Day");
   document.getElementById("nightBtn").classList.toggle("active-choice", state.timeOfDay === "Night");
-  const readyBox = document.getElementById("readyBox"); readyBox.className = `status-box ${allReady()?"ready":"waiting"}`; readyBox.innerHTML = `<strong>${allReady()?"Everyone is ready":"Waiting on players"}</strong><span>Random button is locked until every streamer has a name, level, money, and ready status.</span>`;
+  const readyBox = document.getElementById("readyBox"); readyBox.className = `status-box ${allReady()?"ready":"waiting"}`; readyBox.innerHTML = `<strong>${allReady()?"Everyone is ready":"Waiting on players"}</strong><span>Random button is locked until every playing streamer has a name, level, money, and ready status.</span>`;
   document.getElementById("randomBtn").disabled = !allReady(); document.getElementById("rerollBtn").disabled = !allReady();
   renderPlayers(); renderViewer(); renderDashboard(); saveState();
 }
 function renderPlayers(){
   const wrap = document.getElementById("playersList"); wrap.innerHTML = "";
   state.players.forEach((p, index)=>{
-    const div = document.createElement("div"); div.className = `player-card ${p.ready?"ready-player":""}`;
-    div.innerHTML = `<div class="player-top"><div><span class="${p.ready?"ready-dot":"warn-dot"}">${p.ready?"●":"●"}</span> <strong>Player ${index+1}</strong></div>${state.players.length>1?`<button class="remove-btn" data-remove="${p.id}">Remove</button>`:""}</div><label>Streamer name<input data-field="name" data-id="${p.id}" value="${escapeHtml(p.name)}"></label><div class="two-col"><label>Level<input type="number" min="1" max="79" data-field="level" data-id="${p.id}" value="${p.level}"></label><label>Money / Budget<input type="number" min="0" data-field="money" data-id="${p.id}" value="${p.money}"></label></div><button class="ready-btn ${p.ready?"is-ready":""}" data-ready="${p.id}">${p.ready?"Ready - Green":"Mark Ready"}</button>`;
+    const isActive = p.active !== false;
+    const div = document.createElement("div"); div.className = `player-card ${p.ready && isActive?"ready-player":""} ${!isActive?"out-player":""}`;
+    div.innerHTML = `<div class="player-top"><div><span class="${!isActive?"out-dot":p.ready?"ready-dot":"warn-dot"}">●</span> <strong>${escapeHtml(p.name || `Player ${index+1}`)}</strong><div class="muted small">${isActive ? (p.ready ? "Playing - Ready" : "Playing - Not ready") : "Not playing this run"}</div></div><button class="sitout-btn ${!isActive?"is-out":""}" data-active="${p.id}">${isActive?"Not Playing":"Playing"}</button></div><label>Streamer name<input data-field="name" data-id="${p.id}" value="${escapeHtml(p.name)}"></label><div class="two-col"><label>Level<input type="number" min="1" max="79" data-field="level" data-id="${p.id}" value="${p.level}"></label><label>Money / Budget<input type="number" min="0" data-field="money" data-id="${p.id}" value="${p.money}"></label></div><button class="ready-btn ${p.ready?"is-ready":""}" data-ready="${p.id}" ${!isActive?"disabled":""}>${p.ready?"Ready - Green":"Mark Ready"}</button>`;
     wrap.appendChild(div);
   });
 }
+
 function renderViewer(){
-  const select = document.getElementById("viewerSelect"); select.innerHTML = state.players.map(p=>`<option value="${p.id}" ${p.id===selectedViewerId?"selected":""}>${escapeHtml(p.name || "Unnamed Raider")}</option>`).join("");
+  const select = document.getElementById("viewerSelect"); select.innerHTML = state.players.map(p=>`<option value="${p.id}" ${p.id===selectedViewerId?"selected":""}>${escapeHtml(p.name || "Unnamed Raider")}${p.active === false ? " - Not Playing" : ""}</option>`).join("");
   const p = state.players.find(x=>x.id===selectedViewerId) || state.players[0]; if(!p) return;
   selectedViewerId = p.id;
-  const status = document.getElementById("viewerStatus"); status.className = `viewer-status ${p.ready?"green":""}`; status.innerHTML = `<strong>Status</strong><br>${p.ready?"Ready for Random":"Not Ready Yet"}`;
-  document.getElementById("viewerForm").innerHTML = `<label>Streamer name<input data-field="name" data-id="${p.id}" value="${escapeHtml(p.name)}"></label><div class="two-col"><label>Your Level<input type="number" min="1" max="79" data-field="level" data-id="${p.id}" value="${p.level}"></label><label>Money Available for Kit<input type="number" min="0" data-field="money" data-id="${p.id}" value="${p.money}"></label></div><button class="primary" data-submit-ready="${p.id}">Submit and Mark Ready</button>`;
+  const status = document.getElementById("viewerStatus"); status.className = `viewer-status ${p.active === false ? "out" : p.ready ? "green" : ""}`; status.innerHTML = `<strong>Status</strong><br>${p.active === false ? "Not playing this run" : p.ready ? "Ready for Random" : "Not Ready Yet"}`;
+  document.getElementById("viewerForm").innerHTML = `<label>Streamer name<input data-field="name" data-id="${p.id}" value="${escapeHtml(p.name)}"></label><div class="two-col"><label>Your Level<input type="number" min="1" max="79" data-field="level" data-id="${p.id}" value="${p.level}"></label><label>Money Available for Kit<input type="number" min="0" data-field="money" data-id="${p.id}" value="${p.money}"></label></div><button class="primary" data-submit-ready="${p.id}" ${p.active === false ? "disabled" : ""}>${p.active === false ? "Not Playing This Run" : "Submit and Mark Ready"}</button>`;
 }
 function renderDashboard(){
   document.getElementById("dashTitle").textContent = `${state.mapName} - ${state.timeOfDay} Raid`;
@@ -99,7 +103,7 @@ function updateReadyControlsOnly(){
   const readyBox = document.getElementById("readyBox");
   if (readyBox) {
     readyBox.className = `status-box ${ready ? "ready" : "waiting"}`;
-    readyBox.innerHTML = `<strong>${ready ? "Everyone is ready" : "Waiting on players"}</strong><span>Random button is locked until every streamer has a name, level, money, and ready status.</span>`;
+    readyBox.innerHTML = `<strong>${ready ? "Everyone is ready" : "Waiting on players"}</strong><span>Random button is locked until every playing streamer has a name, level, money, and ready status.</span>`;
   }
   const randomBtn = document.getElementById("randomBtn");
   if (randomBtn) randomBtn.disabled = !ready;
@@ -113,11 +117,11 @@ document.addEventListener("click", e=>{
   if(target.matches(".tab")) setView(target.dataset.view);
   if(target.id === "dayBtn"){ state.timeOfDay = "Day"; render(); }
   if(target.id === "nightBtn"){ state.timeOfDay = "Night"; render(); }
-  if(target.id === "addPlayerBtn"){ state.players.push({ id: crypto.randomUUID(), name: "", level: 1, money: 100000, ready: false }); render(); }
-  if(target.dataset.remove){ state.players = state.players.filter(p=>p.id !== target.dataset.remove); selectedViewerId = state.players[0]?.id || ""; render(); }
-  if(target.dataset.ready){ state.players = state.players.map(p=>p.id===target.dataset.ready ? { ...p, ready: !p.ready } : p); render(); }
-  if(target.dataset.submitReady){ state.players = state.players.map(p=>p.id===target.dataset.submitReady ? { ...p, ready: Boolean(p.name && p.level && p.money) } : p); render(); }
-  if(target.id === "randomBtn" || target.id === "rerollBtn"){ if(!allReady()) return; state.results = state.players.map(generateLoadout); state.lastRolledAt = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); setView("dashboard"); }
+  if(target.id === "addPlayerBtn"){ state.players.push({ id: crypto.randomUUID(), name: "", level: 1, money: 100000, ready: false, active: true }); render(); }
+  if(target.dataset.active){ state.players = state.players.map(p=>p.id===target.dataset.active ? { ...p, active: !(p.active !== false), ready: (p.active !== false) ? false : p.ready } : p); render(); }
+  if(target.dataset.ready){ state.players = state.players.map(p=>p.id===target.dataset.ready && p.active !== false ? { ...p, ready: !p.ready } : p); render(); }
+  if(target.dataset.submitReady){ state.players = state.players.map(p=>p.id===target.dataset.submitReady && p.active !== false ? { ...p, ready: Boolean(p.name && p.level && p.money) } : p); render(); }
+  if(target.id === "randomBtn" || target.id === "rerollBtn"){ if(!allReady()) return; state.results = activePlayers().map(generateLoadout); state.lastRolledAt = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); setView("dashboard"); }
   if(target.id === "dashAdminBtn") setView("admin");
   if(target.id === "copyBtn") copyResults();
 });
