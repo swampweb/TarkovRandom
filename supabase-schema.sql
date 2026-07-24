@@ -1,10 +1,71 @@
--- Run this once in Supabase SQL Editor for Cajun's Tarkov Contracts.
-create table if not exists public.ctc_events (id uuid primary key default gen_random_uuid(), event_code text unique not null, event_name text not null default 'Friday Night Mayhem', map text not null default 'Customs', time_of_day text not null default 'Day', status text not null default 'open', squad_rule text, last_rolled_at timestamptz, created_at timestamptz not null default now());
-create table if not exists public.ctc_streamers (id uuid primary key default gen_random_uuid(), event_id uuid not null references public.ctc_events(id) on delete cascade, streamer_name text not null, level int not null default 1, rubles int not null default 100000, playing boolean not null default true, ready boolean not null default false, created_at timestamptz not null default now());
-create table if not exists public.ctc_contracts (id uuid primary key default gen_random_uuid(), event_id uuid not null references public.ctc_events(id) on delete cascade, streamer_id uuid references public.ctc_streamers(id) on delete set null, streamer_name text, level int, money int, weapon text, ammo text, weapon_style text, armor text, helmet text, rig text, backpack text, estimated_cost int, challenge text, error_message text, created_at timestamptz not null default now());
-alter table public.ctc_events enable row level security; alter table public.ctc_streamers enable row level security; alter table public.ctc_contracts enable row level security;
-drop policy if exists "ctc events all" on public.ctc_events; drop policy if exists "ctc streamers all" on public.ctc_streamers; drop policy if exists "ctc contracts all" on public.ctc_contracts;
+-- Cajun's Tarkov Contracts - Supabase setup
+-- Run this once in Supabase SQL Editor.
+
+create table if not exists public.ctc_events (
+  id uuid primary key default gen_random_uuid(),
+  event_code text unique not null,
+  event_name text not null default 'Friday Night Mayhem',
+  map text not null default 'Customs',
+  time_of_day text not null default 'Day',
+  status text not null default 'open',
+  squad_rule text,
+  last_rolled_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.ctc_streamers (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references public.ctc_events(id) on delete cascade,
+  streamer_name text not null,
+  level int not null default 1,
+  rubles int not null default 100000,
+  playing boolean not null default true,
+  ready boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.ctc_contracts (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references public.ctc_events(id) on delete cascade,
+  streamer_id uuid references public.ctc_streamers(id) on delete set null,
+  streamer_name text,
+  level int,
+  money int,
+  weapon text,
+  ammo text,
+  weapon_style text,
+  armor text,
+  helmet text,
+  rig text,
+  backpack text,
+  estimated_cost int,
+  challenge text,
+  error_message text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.ctc_events enable row level security;
+alter table public.ctc_streamers enable row level security;
+alter table public.ctc_contracts enable row level security;
+
+drop policy if exists "ctc events all" on public.ctc_events;
+drop policy if exists "ctc streamers all" on public.ctc_streamers;
+drop policy if exists "ctc contracts all" on public.ctc_contracts;
+
 create policy "ctc events all" on public.ctc_events for all using (true) with check (true);
 create policy "ctc streamers all" on public.ctc_streamers for all using (true) with check (true);
 create policy "ctc contracts all" on public.ctc_contracts for all using (true) with check (true);
-alter publication supabase_realtime add table public.ctc_events; alter publication supabase_realtime add table public.ctc_streamers; alter publication supabase_realtime add table public.ctc_contracts;
+
+-- Enable realtime safely. These blocks avoid duplicate-publication errors if you run the script more than once.
+do $$
+begin
+  if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='ctc_events') then
+    alter publication supabase_realtime add table public.ctc_events;
+  end if;
+  if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='ctc_streamers') then
+    alter publication supabase_realtime add table public.ctc_streamers;
+  end if;
+  if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='ctc_contracts') then
+    alter publication supabase_realtime add table public.ctc_contracts;
+  end if;
+end $$;
