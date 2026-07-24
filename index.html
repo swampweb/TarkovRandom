@@ -6,12 +6,15 @@
   <title>Cajun's Tarkov Contracts</title>
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="app">
-    <header class="topbar compact">
+    <header class="topbar">
       <div class="brand">
         <img src="logo.png" alt="Cajun's Tarkov Contracts logo" class="brand-logo" />
         <div>
@@ -19,14 +22,23 @@
           <p>Random Loadout. Real Chaos.</p>
         </div>
       </div>
-      <div class="event-code"><span>Current Event</span><strong id="currentEventCode">NONE</strong></div>
+      <nav class="nav-tabs" aria-label="Main navigation">
+        <button class="nav-btn active" data-go="homeView">Home</button>
+        <button class="nav-btn" data-go="adminView">⚙ Admin Setup</button>
+        <button class="nav-btn" data-go="streamerView">✎ Streamer Entry</button>
+        <button class="nav-btn" data-go="dashboardView">▣ Dashboard</button>
+      </nav>
+      <div class="event-code">
+        <span>Event Code</span>
+        <strong id="currentEventCode">NONE</strong>
+      </div>
     </header>
 
     <main>
       <section id="homeView" class="view active-view">
         <section class="card home-card">
           <h2>Choose Your Page</h2>
-          <p class="muted home-copy">Admin creates or loads an event code. Streamers only need to click Streamer Entry, enter the event code, and join.</p>
+          <p class="muted home-copy">Admin creates or loads an event code. Streamers click Streamer Entry, enter the event code, and join.</p>
           <div class="home-actions">
             <button class="home-tile" data-go="adminView"><strong>Admin</strong><span>Create/load event, manage roster, generate contracts.</span></button>
             <button class="home-tile" data-go="streamerView"><strong>Streamer Entry</strong><span>Enter event code, join event, update level and rubles.</span></button>
@@ -37,12 +49,15 @@
 
       <section id="adminView" class="view">
         <button class="back-btn" data-go="homeView">← Home</button>
-        <div class="grid admin-grid restored-admin-layout">
-          <aside class="sidebar card restored-sidebar">
+        <div class="grid admin-grid old-admin-layout">
+          <aside class="sidebar card old-admin-sidebar">
             <h2>Event Setup</h2>
             <label>Event Name<input id="eventName" value="Friday Night Mayhem" /></label>
             <label>Map<select id="mapName"></select></label>
-            <div class="field-group"><span>Time</span><div class="segmented"><button id="dayBtn">✹ Day</button><button id="nightBtn">☾ Night</button></div></div>
+            <div class="field-group">
+              <span>Time</span>
+              <div class="segmented"><button id="dayBtn" class="active">✹ Day</button><button id="nightBtn">☾ Night</button></div>
+            </div>
             <button id="generateContractsBtn" class="primary">🎲 Randomize Loadouts</button>
             <p class="helper">Only streamers marked <b>Playing</b> and <b>Ready</b> are included.</p>
             <div class="rule-box"><strong>★ The Rule</strong><p>You may mod your weapon however you want, but you must use the assigned gun.</p><span>Good luck out there, PMC.</span></div>
@@ -50,23 +65,17 @@
             <button id="toggleEventToolsBtn" class="ghost wide event-tools-toggle">Event Tools</button>
             <div id="eventToolsPanel" class="event-tools-panel hidden-panel">
               <label>Event Code<input id="adminEventCode" maxlength="16" placeholder="SANDRAIDERS" /></label>
-              <div class="event-actions">
-                <button id="loadAdminEventBtn" class="ghost wide">Load / Create</button>
-                <button id="newEventCodeBtn" class="ghost wide">New Code</button>
-              </div>
+              <div class="event-actions"><button id="loadAdminEventBtn" class="ghost wide">Load / Create</button><button id="newEventCodeBtn" class="ghost wide">New Code</button></div>
               <div class="events-heading-row"><h3>Events <span id="eventsCount" class="count">0</span></h3><button id="refreshEventsBtn" class="ghost small-ghost">Refresh</button></div>
               <div class="table-wrap event-list-wrap compact-events"><table><thead><tr><th>Code</th><th>Names</th><th>Actions</th></tr></thead><tbody id="eventManagerBody"></tbody></table></div>
             </div>
             <div id="adminNotice" class="notice"></div>
           </aside>
 
-          <section class="card main-panel restored-roster">
+          <section class="card main-panel old-admin-roster">
             <div class="panel-title-row">
-              <div>
-                <h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2>
-                <p class="muted">Manage who is active for this random roll.</p>
-              </div>
-              <button id="openAddStreamerBtn" class="add-btn">+ Add Streamer</button>
+              <div><h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2><p class="muted">Manage who is active for this random roll.</p></div>
+              <button id="openAddStreamerBtn" class="add-btn">＋ Add Streamer</button>
             </div>
             <div id="addStreamerPanel" class="add-streamer-panel hidden-panel">
               <div class="add-row"><select id="profileSelect"></select><button id="addProfileToEventBtn" class="add-btn">Add Selected</button></div>
@@ -82,7 +91,7 @@
       <section id="streamerView" class="view">
         <button class="back-btn" data-go="homeView">← Home</button>
         <section class="card streamer-card">
-          <div class="streamer-head"><div><h2>Streamer Entry</h2><p class="muted">Enter the event code from Admin. Pick your global streamer name. Join the event, update info, and mark ready.</p></div><div class="event-code small-code"><span>Event Code</span><strong id="streamerEventDisplay">NONE</strong></div></div>
+          <div class="streamer-head"><div><h2>Streamer Entry</h2><p class="muted">Enter the event code from Admin. Pick or add your name, join the event, update level and rubles, then mark ready.</p></div><div class="event-code small-code"><span>Event Code</span><strong id="streamerEventDisplay">NONE</strong></div></div>
           <div class="entry-grid">
             <div class="entry-left">
               <label>Event Code<input id="streamerEventCode" maxlength="16" placeholder="SANDRAIDERS" /></label>
@@ -111,7 +120,7 @@
         <section id="dashboardResults" class="results-empty">Load an event code to view contracts.</section>
       </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>v5.1.0</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>v5.2.0</span></footer>
   </div>
   <script src="script.js"></script>
 </body>
