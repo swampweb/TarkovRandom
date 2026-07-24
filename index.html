@@ -3,94 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CajunVeteran Raid Roulette</title>
+  <title>Cajun's Tarkov Contracts</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <header class="hero">
-      <div>
-        <div class="eyebrow">Stream Event Tool</div>
-        <h1 id="heroTitle">CajunVeteran Raid Roulette</h1>
-        <p>Admin sets the raid. Streamers enter level and budget. When everyone is green, admin rolls the random Tarkov loadouts.</p>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img src="logo.png" alt="Cajun's Tarkov Contracts logo" class="brand-logo" />
+        <div>
+          <h1>Cajun's <span>Tarkov Contracts</span></h1>
+          <p>Random Loadout. Real Chaos.</p>
+        </div>
       </div>
-      <nav class="tabs">
-        <button class="tab active" data-view="admin">Admin Setup</button>
-        <button class="tab" data-view="viewer">Streamer Entry</button>
-        <button class="tab" data-view="dashboard">Dashboard</button>
+      <nav class="nav-tabs" aria-label="Main navigation">
+        <button class="nav-btn active" data-view="admin">⚙ Admin Setup</button>
+        <button class="nav-btn" data-view="streamer">✎ Streamer Entry</button>
+        <button class="nav-btn" data-view="dashboard">▣ Dashboard</button>
       </nav>
+      <div class="event-code">
+        <span>Event Code</span>
+        <strong id="eventCodeTop">CV7264</strong>
+      </div>
     </header>
 
     <main>
-      <section id="adminView" class="view active-view">
-        <div class="grid admin-grid">
-          <section class="card setup-card">
-            <h2>Admin Setup</h2>
-            <label>Event Name
-              <input id="eventName" type="text" value="CajunVeteran Raid Roulette" />
-            </label>
-            <label>Map
-              <select id="mapName">
-                <option>Customs</option><option>Woods</option><option>Factory</option><option>Interchange</option><option>Reserve</option><option>Shoreline</option><option>Lighthouse</option><option>Streets</option><option>Ground Zero</option><option>Labs</option><option>Random Map</option>
-              </select>
-            </label>
-            <div>
-              <label class="plain-label">Time</label>
-              <div class="toggle-row">
-                <button id="dayBtn" class="choice active-choice">Day</button>
-                <button id="nightBtn" class="choice">Night</button>
-              </div>
-            </div>
-            <div id="readyBox" class="status-box waiting">
-              <strong>Waiting on players</strong>
-              <span>Random button unlocks when everyone has name, level, money, and ready status.</span>
-            </div>
-            <button id="randomBtn" class="primary" disabled>Randomize Loadouts</button>
-          </section>
-
-          <section class="card players-card">
-            <div class="section-header">
-              <h2>Player Control</h2>
-              <button id="addPlayerBtn" class="secondary">+ Add Player</button>
-            </div>
-            <div id="playersList" class="players-list"></div>
-          </section>
-        </div>
-      </section>
-
-      <section id="viewerView" class="view">
-        <section class="card viewer-card">
-          <h2>Streamer Entry Page</h2>
-          <p class="muted">Streamer picks their name, enters level and available kit money, then marks ready.</p>
-          <div class="viewer-select-grid">
-            <label>Choose Your Name
-              <select id="viewerSelect"></select>
-            </label>
-            <div id="viewerStatus" class="viewer-status"></div>
+      <section id="admin" class="view active-view">
+        <aside class="sidebar card">
+          <h2>Event Setup</h2>
+          <label>Event Name<input id="eventName" value="Friday Night Mayhem" /></label>
+          <label>Map<select id="mapName"></select></label>
+          <div class="field-group">
+            <span>Time</span>
+            <div class="segmented"><button id="dayBtn" class="active">☀ Day</button><button id="nightBtn">☾ Night</button></div>
           </div>
-          <div id="viewerForm" class="viewer-form"></div>
+          <button id="randomizeBtn" class="primary">🎲 Randomize Loadouts</button>
+          <p class="helper">Only streamers marked <b>Playing</b> and <b>Ready</b> are included.</p>
+          <div class="rule-box"><strong>★ The Rule</strong><p>You may mod your weapon however you want, but you must use the assigned gun.</p><span>Good luck out there, PMC.</span></div>
+        </aside>
+
+        <section class="card main-panel">
+          <div class="panel-title-row">
+            <div><h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2><p class="muted">Manage who is active for this random roll.</p></div>
+            <button id="addStreamerBtn" class="add-btn">＋ Add Streamer</button>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Budget</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingBody"></tbody></table></div>
+          <div class="section-break"><h3>Not Playing <span id="notPlayingCount" class="count">0</span></h3></div>
+          <div class="table-wrap muted-table"><table><tbody id="notPlayingBody"></tbody></table></div>
+          <div id="adminNotice" class="notice"></div>
         </section>
       </section>
 
-      <section id="dashboardView" class="view">
-        <section class="card dash-header">
-          <div>
-            <div class="muted">Dashboard</div>
-            <h2 id="dashTitle">Customs - Day Raid</h2>
-            <strong id="squadRule" class="yellow"></strong>
-            <div id="rolledTime" class="muted small"></div>
+      <section id="streamer" class="view">
+        <section class="card streamer-card">
+          <div class="streamer-head">
+            <div><h2>Streamer Entry</h2><p class="muted">Pick your name, enter level and money, then mark ready. If admin has you as Not Playing, you can still update your info but you will not be rolled.</p></div>
+            <div class="event-code small-code"><span>Event Code</span><strong id="eventCodePlayer">CV7264</strong></div>
           </div>
-          <div class="dash-actions">
-            <button id="dashAdminBtn" class="secondary">Admin</button>
-            <button id="rerollBtn" class="secondary" disabled>Reroll</button>
-            <button id="copyBtn" class="light" disabled>Copy Results</button>
+          <div class="entry-grid">
+            <div class="entry-left">
+              <label>Your Streamer Name<select id="streamerSelect"></select></label>
+              <div id="streamerStatus" class="status-card"></div>
+            </div>
+            <div class="entry-form">
+              <label>Display Name<input id="streamerNameInput" /></label>
+              <div class="two"><label>PMC Level<input id="streamerLevelInput" type="number" min="1" max="79" /></label><label>Available Money<input id="streamerMoneyInput" type="number" min="0" /></label></div>
+              <button id="submitReadyBtn" class="primary">✓ Submit and Mark Ready</button>
+              <p class="helper">Your money is treated like a kit budget so the random gear stays fair.</p>
+            </div>
           </div>
         </section>
-        <section id="resultsArea" class="results-empty">No random loadouts yet. Admin must wait until everyone is green, then click <strong>Randomize Loadouts</strong>.</section>
+      </section>
+
+      <section id="dashboard" class="view">
+        <section class="card dashboard-head">
+          <div><span class="muted">Dashboard</span><h2 id="dashTitle">Customs - Day Raid</h2><p id="squadRule" class="yellow"></p><small id="rolledAt" class="muted"></small></div>
+          <div class="dash-actions"><button class="ghost" data-view="admin">Admin</button><button id="dashRerollBtn" class="ghost">↻ Reroll</button><button id="copyBtn" class="light">Copy Results</button></div>
+        </section>
+        <section id="dashboardResults" class="results-empty">No contracts assigned yet. Admin must click <b>Randomize Loadouts</b>.</section>
       </section>
     </main>
+    <footer>Cajun's Tarkov Contracts <span>v2.0.0</span></footer>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
