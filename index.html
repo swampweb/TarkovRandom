@@ -52,7 +52,7 @@
             <div><h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2><p class="muted">Manage who is active for this random roll.</p></div>
             <button id="addStreamerBtn" class="add-btn">＋ Add Streamer</button>
           </div>
-          <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Budget</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingBody"></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Available Rubles</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingBody"></tbody></table></div>
           <div class="section-break"><h3>Not Playing <span id="notPlayingCount" class="count">0</span></h3></div>
           <div class="table-wrap muted-table"><table><tbody id="notPlayingBody"></tbody></table></div>
           <div id="adminNotice" class="notice"></div>
@@ -72,9 +72,9 @@
             </div>
             <div class="entry-form">
               <label>Display Name<input id="streamerNameInput" /></label>
-              <div class="two"><label>PMC Level<input id="streamerLevelInput" type="number" min="1" max="79" /></label><label>Available Money<input id="streamerMoneyInput" type="number" min="0" /></label></div>
+              <div class="two"><label>PMC Level<input id="streamerLevelInput" type="number" min="1" max="79" /></label><label>Available Rubles<input id="streamerMoneyInput" type="number" min="0" /></label></div>
               <button id="submitReadyBtn" class="primary">✓ Submit and Mark Ready</button>
-              <p class="helper">Your money is treated like a kit budget so the random gear stays fair.</p>
+              <p class="helper">Your available rubles are only used to make sure the assigned kit is affordable. The randomizer will not try to spend all your money.</p>
             </div>
           </div>
         </section>
