@@ -85,7 +85,28 @@ function renderDashboard(){
   area.className = "results-grid";
   area.innerHTML = state.results.map((r,i)=> r.error ? `<article class="result-card"><div class="result-top"><div><div class="muted">Level ${r.level} Raider · Budget ${money(r.money)} RUB</div><h2>${escapeHtml(r.name)}</h2></div><div class="badge">#${i+1}</div></div><div class="error-box"><strong>Cannot Build Loadout</strong><br>${escapeHtml(r.message)}</div></article>` : `<article class="result-card"><div class="result-top"><div><div class="muted">Level ${r.level} Raider · Budget ${money(r.money)} RUB</div><h2>${escapeHtml(r.name)}</h2></div><div class="badge">#${i+1}</div></div><div class="weapon-box"><div class="muted">Assigned Gun</div><h3>${escapeHtml(r.weapon.name)}</h3><div>${escapeHtml(r.weapon.style)} · ${escapeHtml(r.weapon.ammo)}</div><p class="muted">${escapeHtml(r.weapon.note)}</p><strong class="yellow">Rule: You may mod it however you want, but it must stay this gun.</strong></div><div class="gear-grid"><div class="gear-item"><span class="muted">Armor</span><br><strong>${escapeHtml(r.armor.name)}</strong></div><div class="gear-item"><span class="muted">Helmet</span><br><strong>${escapeHtml(r.helmet.name)}</strong></div><div class="gear-item"><span class="muted">Rig</span><br><strong>${escapeHtml(r.rig.name)}</strong></div><div class="gear-item"><span class="muted">Backpack</span><br><strong>${escapeHtml(r.backpack.name)}</strong></div></div><div class="cost-box"><span class="muted">Estimated Kit Cost</span><br><strong>${money(r.totalCost)} RUB</strong></div><div class="challenge-box"><span class="muted">Personal Challenge</span><br><strong>${escapeHtml(r.challenge)}</strong></div></article>`).join("");
 }
-function updatePlayer(id, field, value){ state.players = state.players.map(p => p.id === id ? { ...p, [field]: field === "name" ? value : Number(value), ready: field === "name" ? p.ready : p.ready } : p); render(); }
+function updatePlayer(id, field, value){
+  state.players = state.players.map(p =>
+    p.id === id
+      ? { ...p, [field]: field === "name" ? value : Number(value) }
+      : p
+  );
+  saveState();
+  updateReadyControlsOnly();
+}
+function updateReadyControlsOnly(){
+  const ready = allReady();
+  const readyBox = document.getElementById("readyBox");
+  if (readyBox) {
+    readyBox.className = `status-box ${ready ? "ready" : "waiting"}`;
+    readyBox.innerHTML = `<strong>${ready ? "Everyone is ready" : "Waiting on players"}</strong><span>Random button is locked until every streamer has a name, level, money, and ready status.</span>`;
+  }
+  const randomBtn = document.getElementById("randomBtn");
+  if (randomBtn) randomBtn.disabled = !ready;
+  const rerollBtn = document.getElementById("rerollBtn");
+  if (rerollBtn) rerollBtn.disabled = !ready;
+}
+
 function escapeHtml(value){ return String(value ?? "").replace(/[&<>'"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[ch])); }
 document.addEventListener("click", e=>{
   const target = e.target;
@@ -100,7 +121,18 @@ document.addEventListener("click", e=>{
   if(target.id === "dashAdminBtn") setView("admin");
   if(target.id === "copyBtn") copyResults();
 });
-document.addEventListener("input", e=>{ const t=e.target; if(t.id === "eventName"){ state.eventName=t.value; render(); } if(t.dataset.field){ updatePlayer(t.dataset.id, t.dataset.field, t.value); } });
+document.addEventListener("input", e=>{
+  const t = e.target;
+  if (t.id === "eventName") {
+    state.eventName = t.value;
+    const heroTitle = document.getElementById("heroTitle");
+    if (heroTitle) heroTitle.textContent = state.eventName;
+    saveState();
+  }
+  if (t.dataset.field) {
+    updatePlayer(t.dataset.id, t.dataset.field, t.value);
+  }
+});
 document.addEventListener("change", e=>{ const t=e.target; if(t.id === "mapName"){ state.mapName=t.value; render(); } if(t.id === "viewerSelect"){ selectedViewerId=t.value; render(); } });
 function copyResults(){
   const text = `${state.eventName}\nMap: ${state.mapName} - ${state.timeOfDay}\nRolled: ${state.lastRolledAt || "Not rolled yet"}\n\n${state.results.map(r => r.error ? `${r.name} - ERROR: ${r.message}` : `${r.name} - Level ${r.level} - Budget ${money(r.money)} RUB\nWeapon: ${r.weapon.name}\nAmmo: ${r.weapon.ammo}\nArmor: ${r.armor.name}\nHelmet: ${r.helmet.name}\nRig: ${r.rig.name}\nBackpack: ${r.backpack.name}\nEstimated Cost: ${money(r.totalCost)} RUB\nChallenge: ${r.challenge}\nRule: Streamer may mod the weapon any way they want, but must run the assigned gun.`).join("\n\n")}`;
