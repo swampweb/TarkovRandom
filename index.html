@@ -37,24 +37,30 @@
 
       <section id="adminView" class="view">
         <button class="back-btn" data-go="homeView">← Home</button>
-        <div class="grid admin-grid clean-admin-v5">
-          <aside class="sidebar card admin-sidebar-v5">
+        <div class="grid admin-grid restored-admin-layout">
+          <aside class="sidebar card restored-sidebar">
             <h2>Event Setup</h2>
-            <label>Event Code<input id="adminEventCode" maxlength="16" placeholder="SANDRAIDERS" /></label>
-            <div class="event-actions">
-              <button id="loadAdminEventBtn" class="ghost wide">Load / Create</button>
-              <button id="newEventCodeBtn" class="ghost wide">New Code</button>
-            </div>
             <label>Event Name<input id="eventName" value="Friday Night Mayhem" /></label>
             <label>Map<select id="mapName"></select></label>
-            <div class="field-group"><span>Time</span><div class="segmented"><button id="dayBtn">Day</button><button id="nightBtn">Night</button></div></div>
-            <button id="generateContractsBtn" class="primary">🎲 Generate Contracts</button>
+            <div class="field-group"><span>Time</span><div class="segmented"><button id="dayBtn">✹ Day</button><button id="nightBtn">☾ Night</button></div></div>
+            <button id="generateContractsBtn" class="primary">🎲 Randomize Loadouts</button>
             <p class="helper">Only streamers marked <b>Playing</b> and <b>Ready</b> are included.</p>
             <div class="rule-box"><strong>★ The Rule</strong><p>You may mod your weapon however you want, but you must use the assigned gun.</p><span>Good luck out there, PMC.</span></div>
+
+            <button id="toggleEventToolsBtn" class="ghost wide event-tools-toggle">Event Tools</button>
+            <div id="eventToolsPanel" class="event-tools-panel hidden-panel">
+              <label>Event Code<input id="adminEventCode" maxlength="16" placeholder="SANDRAIDERS" /></label>
+              <div class="event-actions">
+                <button id="loadAdminEventBtn" class="ghost wide">Load / Create</button>
+                <button id="newEventCodeBtn" class="ghost wide">New Code</button>
+              </div>
+              <div class="events-heading-row"><h3>Events <span id="eventsCount" class="count">0</span></h3><button id="refreshEventsBtn" class="ghost small-ghost">Refresh</button></div>
+              <div class="table-wrap event-list-wrap compact-events"><table><thead><tr><th>Code</th><th>Names</th><th>Actions</th></tr></thead><tbody id="eventManagerBody"></tbody></table></div>
+            </div>
             <div id="adminNotice" class="notice"></div>
           </aside>
 
-          <section class="card main-panel admin-roster-v5">
+          <section class="card main-panel restored-roster">
             <div class="panel-title-row">
               <div>
                 <h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2>
@@ -62,25 +68,13 @@
               </div>
               <button id="openAddStreamerBtn" class="add-btn">+ Add Streamer</button>
             </div>
-
             <div id="addStreamerPanel" class="add-streamer-panel hidden-panel">
-              <div class="add-row">
-                <select id="profileSelect"></select>
-                <button id="addProfileToEventBtn" class="add-btn">Add Selected</button>
-              </div>
-              <div class="add-row">
-                <input id="newProfileName" placeholder="Add new global streamer name" />
-                <button id="createProfileBtn" class="add-btn">Create Streamer</button>
-              </div>
+              <div class="add-row"><select id="profileSelect"></select><button id="addProfileToEventBtn" class="add-btn">Add Selected</button></div>
+              <div class="add-row"><input id="newProfileName" placeholder="Add new global streamer name" /><button id="createProfileBtn" class="add-btn">Create Streamer</button></div>
             </div>
-
             <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Rubles</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingPlayersBody"></tbody></table></div>
-
             <div class="section-break"><h3>Not Playing <span id="notPlayingCount" class="count">0</span></h3></div>
             <div class="table-wrap muted-table"><table><tbody id="notPlayingPlayersBody"></tbody></table></div>
-
-            <div class="section-break events-break"><div class="events-heading-row"><h3>Events <span id="eventsCount" class="count">0</span></h3><button id="refreshEventsBtn" class="ghost small-ghost">Refresh</button></div></div>
-            <div class="table-wrap event-list-wrap"><table><thead><tr><th>Event Code</th><th>Name</th><th>Map</th><th>Streamers</th><th>Actions</th></tr></thead><tbody id="eventManagerBody"></tbody></table></div>
           </section>
         </div>
       </section>
@@ -117,7 +111,7 @@
         <section id="dashboardResults" class="results-empty">Load an event code to view contracts.</section>
       </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>v4.0.0</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>v5.1.0</span></footer>
   </div>
   <script src="script.js"></script>
 </body>
