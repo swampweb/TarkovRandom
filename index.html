@@ -25,6 +25,7 @@
         <button class="nav-btn active" data-view="admin">⚙ Admin Setup</button>
         <button class="nav-btn" data-view="streamer">✎ Streamer Entry</button>
         <button class="nav-btn" data-view="dashboard">▣ Dashboard</button>
+        <button class="nav-btn" data-view="report">▤ Admin Report</button>
       </nav>
       <div class="event-code">
         <span>Event Code</span>
@@ -35,27 +36,25 @@
       <section id="admin" class="view active-view">
         <aside class="sidebar card">
           <h2>Event Setup</h2>
-          <label>Event Code<input id="eventCodeInput" value="CV7264" maxlength="16" /></label>
+          <div class="event-select-wrap">
+            <label>Existing Events<select id="eventSelect"></select></label>
+            <div class="event-admin-row"><button id="loadSelectedEventBtn" class="ghost">Load Selected</button><button id="deleteCurrentEventBtn" class="ghost danger-btn">Delete Current</button></div>
+          </div>
+          <label>Event Code<input id="eventCodeInput" class="event-code-input" value="CV7264" maxlength="16" /></label>
           <div class="event-admin-row">
-            <button id="loadEventBtn" class="ghost">Load / Create</button>
-            <button id="newEventBtn" class="ghost">New Code</button>
+            <button id="createEventBtn" class="ghost">Create Event</button>
+            <button id="newCodeBtn" class="ghost">New Code</button>
           </div>
           <label>Event Name<input id="eventName" value="Friday Night Mayhem" /></label>
           <label>Map<select id="mapName"></select></label>
-          <div class="field-group">
-            <span>Time</span>
-            <div class="segmented"><button id="dayBtn" class="active">☀ Day</button><button id="nightBtn">☾ Night</button></div>
-          </div>
+          <div class="field-group"><span>Time</span><div class="segmented"><button id="dayBtn" class="active">☀ Day</button><button id="nightBtn">☾ Night</button></div></div>
           <button id="randomizeBtn" class="primary">🎲 Randomize Loadouts</button>
           <p class="helper">Only streamers marked <b>Playing</b> and <b>Ready</b> are included.</p>
           <div class="rule-box"><strong>★ The Rule</strong><p>You may mod your weapon however you want, but you must use the assigned gun.</p><span>Good luck out there, PMC.</span></div>
           <div id="adminNotice" class="notice"></div>
         </aside>
         <section class="card main-panel">
-          <div class="panel-title-row">
-            <div><h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2><p class="muted">Manage who is active for this random roll.</p></div>
-            <button id="addStreamerBtn" class="add-btn">＋ Add Streamer</button>
-          </div>
+          <div class="panel-title-row"><div><h2>Playing Streamers <span id="readyPill" class="pill">0/0 Ready</span></h2><p class="muted">Manage who is active for this random roll.</p></div><button id="addStreamerBtn" class="add-btn">＋ Add Streamer</button></div>
           <div class="table-wrap"><table><thead><tr><th>Status</th><th>Streamer</th><th>Level</th><th>Rubles</th><th>Ready</th><th>Actions</th></tr></thead><tbody id="playingBody"></tbody></table></div>
           <div class="section-break"><h3>Not Playing <span id="notPlayingCount" class="count">0</span></h3></div>
           <div class="table-wrap muted-table"><table><tbody id="notPlayingBody"></tbody></table></div>
@@ -63,13 +62,10 @@
       </section>
       <section id="streamer" class="view">
         <section class="card streamer-card">
-          <div class="streamer-head">
-            <div><h2>Streamer Entry</h2><p class="muted">Enter the event code, pick your name, update level and rubles, then mark ready.</p></div>
-            <div class="event-code small-code"><span>Event Code</span><strong id="eventCodePlayer">CV7264</strong></div>
-          </div>
+          <div class="streamer-head"><div><h2>Streamer Entry</h2><p class="muted">Enter the event code, pick your name, update level and rubles, then mark ready.</p></div><div class="event-code small-code"><span>Event Code</span><strong id="eventCodePlayer">CV7264</strong></div></div>
           <div class="entry-grid">
             <div class="entry-left">
-              <div class="streamer-event-row"><input id="streamerEventCodeInput" value="CV7264" maxlength="16" /><button id="streamerLoadEventBtn" class="mini-btn">Load</button></div>
+              <div class="streamer-event-row"><input id="streamerEventCodeInput" class="event-code-input" value="CV7264" maxlength="16" /><button id="streamerLoadEventBtn" class="mini-btn">Load</button></div>
               <label>Your Streamer Name<select id="streamerSelect"></select></label>
               <div class="name-create-row"><input id="newStreamerName" placeholder="Name not listed? Type name" /><button id="createStreamerBtn" class="mini-btn">Create Name</button></div>
               <div id="streamerStatus" class="status-card"></div>
@@ -84,14 +80,17 @@
         </section>
       </section>
       <section id="dashboard" class="view">
-        <section class="card dashboard-head">
-          <div><span class="muted">Dashboard</span><h2 id="dashTitle">Customs - Day Raid</h2><p id="squadRule" class="yellow"></p><small id="rolledAt" class="muted"></small></div>
-          <div class="dash-actions"><button class="ghost" data-view="admin">Admin</button><button id="dashRerollBtn" class="ghost">↻ Reroll</button><button id="copyBtn" class="light">Copy Results</button></div>
-        </section>
+        <section class="card dashboard-head"><div><span class="muted">Dashboard</span><h2 id="dashTitle">Customs - Day Raid</h2><p id="squadRule" class="yellow"></p><small id="rolledAt" class="muted"></small></div><div class="dash-actions"><button class="ghost" data-view="admin">Admin</button><button id="dashRerollBtn" class="ghost">↻ Reroll</button><button id="copyBtn" class="light">Copy Results</button></div></section>
         <section id="dashboardResults" class="results-empty">No contracts assigned yet. Admin must click <b>Randomize Loadouts</b>.</section>
       </section>
+      <section id="report" class="view">
+        <section class="card report-card">
+          <div class="panel-title-row"><div><h2>Admin Event Report</h2><p class="muted">View every event saved in this browser, who is in each event, and remove whole events.</p></div><button id="refreshReportBtn" class="add-btn">Refresh Report</button></div>
+          <div id="reportArea" class="report-grid"></div>
+        </section>
+      </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>Fixed Event Code v1</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>Event Manager v1</span></footer>
   </div>
   <script src="script.js"></script>
 </body>
