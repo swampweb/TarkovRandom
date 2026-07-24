@@ -27,3 +27,17 @@ GitHub Pages should be set to deploy from `main` and `/root`.
 ## Note
 
 This version still uses browser local storage. For true live multi-user sync, the next step is adding a backend such as Firebase or Supabase.
+
+
+## Browser Favicon
+
+This package includes favicon files for browser tabs and mobile shortcuts:
+
+- `favicon.ico`
+- `favicon-16x16.png`
+- `favicon-32x32.png`
+- `favicon-48x48.png`
+- `favicon-180x180.png`
+- `favicon-192x192.png`
+- `favicon-512x512.png`
+- `site.webmanifest`

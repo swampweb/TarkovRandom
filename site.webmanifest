@@ -1,0 +1,11 @@
+{
+  "name": "Cajun's Tarkov Contracts",
+  "short_name": "Tarkov Contracts",
+  "icons": [
+    { "src": "favicon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "favicon-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#070806",
+  "background_color": "#070806",
+  "display": "standalone"
+}
