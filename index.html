@@ -36,6 +36,11 @@
       <section id="admin" class="view active-view">
         <aside class="sidebar card">
           <h2>Event Setup</h2>
+          <label>Event Code<input id="eventCodeInput" value="CV7264" maxlength="16" /></label>
+          <div class="event-actions compact-event-actions">
+            <button id="loadEventBtn" class="ghost wide">Load / Create</button>
+            <button id="newEventBtn" class="ghost wide">New Code</button>
+          </div>
           <label>Event Name<input id="eventName" value="Friday Night Mayhem" /></label>
           <label>Map<select id="mapName"></select></label>
           <div class="field-group">
@@ -88,7 +93,7 @@
         <section id="dashboardResults" class="results-empty">No contracts assigned yet. Admin must click <b>Randomize Loadouts</b>.</section>
       </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>AdminLayoutRestore</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>AdminLayoutRestore+EventCode</span></footer>
   </div>
   <script src="script.js"></script>
 </body>
