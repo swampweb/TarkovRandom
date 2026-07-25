@@ -141,3 +141,47 @@
   .weapon-hero-with-image{grid-template-columns:1fr;}
   .weapon-image-wrap{min-height:130px;}
 }
+
+/* Dashboard gun image cleanup - larger clearer image and better badge spacing */
+.selected-top{
+  margin-bottom:20px!important;
+}
+.selected-top .roster-num{
+  display:inline-flex!important;
+  margin-bottom:12px!important;
+}
+.selected-top h3{
+  margin-top:0!important;
+  line-height:1.05!important;
+}
+.weapon-hero-with-image{
+  grid-template-columns:minmax(210px,.72fr) minmax(420px,1.65fr)!important;
+  gap:22px!important;
+  padding:18px!important;
+  align-items:stretch!important;
+}
+.weapon-image-wrap{
+  min-height:245px!important;
+  border:0!important;
+  background:radial-gradient(circle at 50% 50%,rgba(215,166,56,.13),rgba(0,0,0,.18) 46%,rgba(0,0,0,.05) 70%)!important;
+  box-shadow:inset 0 0 0 1px rgba(215,166,56,.16)!important;
+  overflow:hidden!important;
+}
+.weapon-image{
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:contain!important;
+  transform:scale(1.85)!important;
+  filter:drop-shadow(0 22px 20px rgba(0,0,0,.48)) contrast(1.12) saturate(1.08)!important;
+}
+@media(max-width:1100px){
+  .weapon-hero-with-image{grid-template-columns:1fr!important;}
+  .weapon-image-wrap{min-height:220px!important;}
+  .weapon-image{transform:scale(1.55)!important;}
+}
+@media(max-width:650px){
+  .weapon-image-wrap{min-height:170px!important;}
+  .weapon-image{transform:scale(1.35)!important;}
+}
