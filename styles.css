@@ -187,26 +187,9 @@
 }
 
 
-/* SAFE v3: fit black-background WEBP images and show category/cartridge chips */
-.weapon-image-wrap{
-  background:#050505!important;
-  min-height:220px!important;
-  padding:14px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  overflow:hidden!important;
-}
-.weapon-image{
-  width:100%!important;
-  height:100%!important;
-  max-width:100%!important;
-  max-height:205px!important;
-  object-fit:contain!important;
-  transform:none!important;
-  mix-blend-mode:normal!important;
-  filter:contrast(1.1) saturate(1.06) drop-shadow(0 14px 14px rgba(0,0,0,.45))!important;
-}
+/* Final WEBP fix: fit small black-background weapon images and show category/cartridge chips */
+.weapon-image-wrap{background:#050505!important;min-height:220px!important;padding:14px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;}
+.weapon-image{width:100%!important;height:100%!important;max-width:100%!important;max-height:205px!important;object-fit:contain!important;transform:none!important;mix-blend-mode:normal!important;filter:contrast(1.1) saturate(1.06) drop-shadow(0 14px 14px rgba(0,0,0,.45))!important;}
 .weapon-meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;}
 .weapon-meta-row span{display:inline-flex!important;align-items:center;border:1px solid rgba(215,166,56,.30);background:rgba(215,166,56,.08);color:#d9c07a!important;border-radius:7px;padding:5px 9px;font-size:11px!important;font-weight:900;text-transform:uppercase;letter-spacing:.8px;}
 .weapon-meta-row span:first-child{color:#f2f0e8!important;border-color:rgba(127,179,72,.35)!important;background:rgba(127,179,72,.11)!important;}

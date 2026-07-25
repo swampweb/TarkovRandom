@@ -152,38 +152,20 @@ function renderDashboard(){
   document.querySelectorAll('[data-contract-index]').forEach(b=>b.onclick=()=>{selectedContractIndex=Number(b.dataset.contractIndex);renderDashboard()});
 }
 
-function gunImageFor(weaponName){
-  const name=String(weaponName||"").toLowerCase();
-  const map=[
-    ["mp-133","mp133"],
-    ["toz","toz106"],
-    ["mosin","mosin"],
-    ["op-sks","opsks"],
-    ["sks","sks"],
-    ["vpo-136","vpo136"],
-    ["kedr","kedr"],
-    ["mp5","mp5"],
-    ["aks-74u","aks74u"],
-    ["akm","akm"],
-    ["m4a1","m4a1"],
-    ["rfb","rfb"],
-    ["g36","g36"],
-    ["mpx","mpx"],
-    ["sr-2m","sr2m"],
-    ["sr2m","sr2m"],
-    ["rd-704","rd704"],
-    ["mcx","mcx"],
-    ["sa-58","sa58"],
-    ["sa58","sa58"],
-    ["rsass","rsass"]
-  ];
-  const found=map.find(([key])=>name.includes(key));
-  return `images/guns/${found?found[1]:"default-rifle"}.png`;
+function lookupWeapon(w){
+  const n=String(w?.name||w||"").toLowerCase();
+  return weapons.find(x=>x.name.toLowerCase()===n)
+    || weapons.find(x=>n.includes(x.name.toLowerCase()) || x.name.toLowerCase().includes(n))
+    || w;
 }
-
+function weaponCategory(w){return lookupWeapon(w)?.category||"Weapon"}
+function weaponCartridge(w){return lookupWeapon(w)?.cartridge||lookupWeapon(w)?.ammo||""}
+function weaponStyle(w){return lookupWeapon(w)?.style||w?.style||""}
+function weaponImage(w){return lookupWeapon(w)?.image||"default-rifle.webp"}
+function gunImageFor(weaponName){return `images/guns/${weaponImage(weaponName)}`}
 function selectedContractHtml(r,i){
   const weapon=lookupWeapon(r.weapon);
-  const gunImg=gunImageFor(weapon.name||r.weapon.name);
+  const gunImg=`images/guns/${weaponImage(weapon)}`;
   return `<div class="selected-top"><div><span class="roster-num">#${i+1}</span><h3>${esc(r.name)}</h3><div class="selected-meta"><span>Level ${r.level}</span><span>${fmt(r.money)}</span></div></div></div><div class="weapon-hero weapon-hero-with-image"><div class="weapon-copy"><span>Assigned Weapon</span><h4>${esc(weapon.name||r.weapon.name)}</h4><div class="weapon-meta-row"><span>${esc(weaponCategory(weapon))}</span><span>${esc(weaponCartridge(weapon))}</span></div><p>${esc(weaponStyle(weapon))} · ${esc(weaponCartridge(weapon))} best available</p><b class="yellow">Mod it however you want, but it must stay this gun.</b></div><div class="weapon-image-wrap"><img class="weapon-image" src="${gunImg}" alt="${esc(weapon.name||r.weapon.name)} image" onerror="this.onerror=null;this.src='images/guns/default-rifle.webp';"></div></div><div class="selected-gear-grid"><div class="selected-gear"><span>Armor</span><b>${esc(r.armor.name)}</b></div><div class="selected-gear"><span>Helmet</span><b>${esc(r.helmet.name)}</b></div><div class="selected-gear"><span>Rig</span><b>${esc(r.rig.name)}</b></div><div class="selected-gear"><span>Backpack</span><b>${esc(r.bag.name)}</b></div></div><div class="selected-bottom"><div class="selected-cost"><span>Estimated Kit Cost</span><b>${fmt(r.total)}</b></div><div class="selected-twist"><span>Contract Twist</span><b>${esc(r.challenge)}</b></div><div class="selected-rule"><span>The Rule</span><b>You may mod your weapon however you want, but you must use the assigned gun.</b></div></div>`
 }
 function renderReport(){const events=allEvents();const codes=Object.keys(events).sort();const eventSection=!codes.length?'<div class="results-empty">No events saved yet.</div>':codes.map(code=>{const e=events[code];const players=e.players||[];const playing=players.filter(p=>p.active!==false);const out=players.filter(p=>p.active===false);return `<article class="event-report-card"><div class="event-report-head"><div><h3>${esc(code)}</h3><div class="event-report-meta">${esc(e.eventName||"Friday Night Mayhem")} · ${esc(e.map||"Customs")} · ${esc(e.time||"Day")} · ${players.length} names</div></div><div class="event-actions-cell"><button class="action-btn" data-report-load="${code}">Load</button><button class="action-btn danger-btn" data-report-delete="${code}">Delete Event</button></div></div><div class="report-columns"><div class="report-list"><h4>Playing (${playing.length})</h4>${listNames(playing)}</div><div class="report-list"><h4>Not Playing (${out.length})</h4>${listNames(out)}</div></div></article>`}).join("");const streamerSection=`<div class="section-break"><h3>Streamer List <span class="count">${profiles.length}</span></h3></div>`+profiles.map(prof=>{let assigned=[];codes.forEach(code=>{let ep=(events[code].players||[]).find(p=>p.profileId===prof.id||p.name===prof.name);if(ep)assigned.push({code,player:ep,event:events[code]})});return `<article class="event-report-card"><div class="event-report-head"><div><h3>${esc(prof.name)}</h3><div class="event-report-meta">Default: Level ${prof.level||1} · ${fmt(prof.money||100000)} · Assigned to ${assigned.length} events</div></div></div>${assigned.length?`<div class="report-list"><ul>${assigned.map(a=>`<li><strong>${esc(a.code)}</strong> <span class="small-muted">${esc(a.event.eventName||'Friday Night Mayhem')} · ${a.player.active===false?'Not Playing':'Playing'} · L${a.player.level} · ${fmt(a.player.money)}</span> <button class="action-btn danger-btn" data-remove-assignment="${a.code}|${a.player.id}">Remove From Event</button></li>`).join('')}</ul></div>`:'<div class="small-muted">Not assigned to any events.</div>'}</article>`}).join('');reportArea.innerHTML=`<h3>Event List</h3>${eventSection}${streamerSection}`;document.querySelectorAll('[data-report-load]').forEach(b=>b.onclick=()=>{switchEvent(b.dataset.reportLoad);setView('admin')});document.querySelectorAll('[data-report-delete]').forEach(b=>b.onclick=()=>deleteEvent(b.dataset.reportDelete));document.querySelectorAll('[data-remove-assignment]').forEach(b=>b.onclick=()=>{const [code,id]=b.dataset.removeAssignment.split('|');removeAssignmentFromEvent(code,id)})}
