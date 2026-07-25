@@ -10,50 +10,35 @@ const starterProfiles=[
 ];
 const starterEventPlayers=starterProfiles.map((p,i)=>({id:crypto.randomUUID(),profileId:p.id,name:p.name,level:p.level,money:p.money,ready:i<4,active:i<4}));
 const weapons=[
-  {name:"Glock 17",category:"Pistol",cartridge:"9x19mm Parabellum",min:1,cost:26000,ammo:"9x19mm best available",style:"Compact sidearm",image:"Glock17.webp"},
-  {name:"MP-443 Grach",category:"Pistol",cartridge:"9x19mm Parabellum",min:1,cost:23000,ammo:"9x19mm best available",style:"Russian service pistol",image:"MP-443.webp"},
-  {name:"APS",category:"Pistol",cartridge:"9x18mm Makarov",min:1,cost:24000,ammo:"9x18mm best available",style:"Full-auto sidearm",image:"APS.webp"},
-  {name:"MP-133 Shotgun",category:"Shotgun",cartridge:"12/70",min:1,cost:25000,ammo:"12/70 best available",style:"Budget pump-action",image:"Mr133.webp"},
-  {name:"TOZ-106",category:"Shotgun",cartridge:"20/70",min:1,cost:18000,ammo:"20/70 best available",style:"Tiny pain stick",image:"Toz.webp"},
-  {name:"SKS",category:"Assault Carbine",cartridge:"7.62x39mm",min:1,cost:35000,ammo:"7.62x39mm best available",style:"Reliable budget",image:"Opsks.webp"},
-  {name:"OP-SKS",category:"Assault Carbine",cartridge:"7.62x39mm",min:1,cost:42000,ammo:"7.62x39mm best available",style:"Classic hunter",image:"Opsks.webp"},
-  {name:"Mosin Infantry",category:"Bolt-Action Rifle",cartridge:"7.62x54mmR",min:1,cost:45000,ammo:"7.62x54mmR best available",style:"Classic pain",image:"MosinInfantry.webp"},
-  {name:"M700",category:"Bolt-Action Rifle",cartridge:"7.62x51mm NATO",min:15,cost:95000,ammo:"7.62x51mm best available",style:"Precision bolt gun",image:"M700.webp"},
-  {name:"Marlin MXLR",category:"Bolt-Action Rifle",cartridge:".308 Marlin Express",min:15,cost:90000,ammo:".308 Marlin Express best available",style:"Lever rifle challenge",image:"MXLR.webp"},
-  {name:"Kedr-B",category:"Submachine Gun",cartridge:"9x18mm Makarov",min:1,cost:32000,ammo:"9x18mm best available",style:"Tiny SMG chaos",image:"Kedrb.webp"},
-  {name:"MP5",category:"Submachine Gun",cartridge:"9x19mm Parabellum",min:10,cost:65000,ammo:"9x19mm best available",style:"Smooth SMG",image:"Mp5.webp"},
-  {name:"PP-19-01 Vityaz",category:"Submachine Gun",cartridge:"9x19mm Parabellum",min:10,cost:62000,ammo:"9x19mm best available",style:"AK-style SMG",image:"Pp19.webp"},
-  {name:"P90",category:"Submachine Gun",cartridge:"5.7x28mm FN",min:20,cost:130000,ammo:"5.7x28mm best available",style:"Bullpup bullet hose",image:"P90.webp"},
-  {name:"SR-2M",category:"Submachine Gun",cartridge:"9x21mm Gyurza",min:20,cost:120000,ammo:"9x21mm best available",style:"High-pen SMG",image:"SR2M.webp"},
-  {name:"AKS-74U",category:"Assault Rifle",cartridge:"5.45x39mm",min:10,cost:55000,ammo:"5.45x39mm best available",style:"Compact fighter",image:"Aks74u.webp"},
-  {name:"AKM",category:"Assault Rifle",cartridge:"7.62x39mm",min:15,cost:85000,ammo:"7.62x39mm best available",style:"Hard hitter",image:"Akm.webp"},
-  {name:"M4A1",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:15,cost:95000,ammo:"5.56x45mm best available",style:"NATO classic",image:"M4a1.webp"},
-  {name:"ADAR 2-15",category:"Assault Carbine",cartridge:"5.56x45mm NATO",min:10,cost:65000,ammo:"5.56x45mm best available",style:"Semi-auto precision",image:"ADAR2.webp"},
-  {name:"AUG A1",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:18,cost:110000,ammo:"5.56x45mm best available",style:"Bullpup classic",image:"AUG_A1.webp"},
-  {name:"MDR 5.56",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:20,cost:130000,ammo:"5.56x45mm best available",style:"Modern bullpup",image:"MDR.webp"},
-  {name:"G36",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:20,cost:120000,ammo:"5.56x45mm best available",style:"Polymer rifle",image:"G36.webp"},
-  {name:"MCX .300 Blackout",category:"Assault Rifle",cartridge:".300 Blackout",min:30,cost:175000,ammo:".300 Blackout best available",style:"CajunVeteran special",image:"300_Blackout_MCX.webp"},
-  {name:"RD-704",category:"Assault Rifle",cartridge:"7.62x39mm",min:30,cost:185000,ammo:"7.62x39mm best available",style:"AK beast",image:"RD-704.webp"},
-  {name:"RPK-16",category:"Light Machine Gun",cartridge:"5.45x39mm",min:25,cost:140000,ammo:"5.45x39mm best available",style:"Squad support",image:"RPK-16.webp"},
-  {name:"RFB",category:"Assault Carbine",cartridge:"7.62x51mm NATO",min:20,cost:110000,ammo:"7.62x51mm best available",style:"Budget puncher",image:"KT_RFB.webp"},
-  {name:"SA-58",category:"Assault Rifle",cartridge:"7.62x51mm NATO",min:37,cost:210000,ammo:"7.62x51mm best available",style:"Recoil rodeo",image:"SA-58.webp"},
-  {name:"RSASS",category:"Designated Marksman Rifle",cartridge:"7.62x51mm NATO",min:35,cost:240000,ammo:"7.62x51mm best available",style:"High-end marksman",image:"Rsass.webp"}
+{name:"Glock 17",category:"Pistol",cartridge:"9x19mm Parabellum",min:1,cost:26000,ammo:"9x19mm Parabellum best available",style:"Compact sidearm",image:"Glock17.webp"},
+{name:"MP-443 Grach",category:"Pistol",cartridge:"9x19mm Parabellum",min:1,cost:23000,ammo:"9x19mm Parabellum best available",style:"Russian service pistol",image:"MP-443.webp"},
+{name:"APS",category:"Pistol",cartridge:"9x18mm Makarov",min:1,cost:24000,ammo:"9x18mm Makarov best available",style:"Full-auto sidearm",image:"APS.webp"},
+{name:"MP-133 Shotgun",category:"Shotgun",cartridge:"12/70",min:1,cost:25000,ammo:"12/70 best available",style:"Budget pump-action",image:"Mr133.webp"},
+{name:"TOZ-106",category:"Shotgun",cartridge:"20/70",min:1,cost:18000,ammo:"20/70 best available",style:"Tiny pain stick",image:"Toz.webp"},
+{name:"SKS",category:"Assault Carbine",cartridge:"7.62x39mm",min:1,cost:35000,ammo:"7.62x39mm best available",style:"Reliable budget",image:"Opsks.webp"},
+{name:"OP-SKS",category:"Assault Carbine",cartridge:"7.62x39mm",min:1,cost:42000,ammo:"7.62x39mm best available",style:"Classic hunter",image:"Opsks.webp"},
+{name:"Mosin Infantry",category:"Bolt-Action Rifle",cartridge:"7.62x54mmR",min:1,cost:45000,ammo:"7.62x54mmR best available",style:"Classic pain",image:"MosinInfantry.webp"},
+{name:"M700",category:"Bolt-Action Rifle",cartridge:"7.62x51mm NATO",min:15,cost:95000,ammo:"7.62x51mm NATO best available",style:"Precision bolt gun",image:"M700.webp"},
+{name:"Marlin MXLR",category:"Bolt-Action Rifle",cartridge:".308 Marlin Express",min:15,cost:90000,ammo:".308 Marlin Express best available",style:"Lever rifle challenge",image:"MXLR.webp"},
+{name:"Kedr-B",category:"Submachine Gun",cartridge:"9x18mm Makarov",min:1,cost:32000,ammo:"9x18mm Makarov best available",style:"Tiny SMG chaos",image:"Kedrb.webp"},
+{name:"MP5",category:"Submachine Gun",cartridge:"9x19mm Parabellum",min:10,cost:65000,ammo:"9x19mm Parabellum best available",style:"Smooth SMG",image:"Mp5.webp"},
+{name:"PP-19-01 Vityaz",category:"Submachine Gun",cartridge:"9x19mm Parabellum",min:10,cost:62000,ammo:"9x19mm Parabellum best available",style:"AK-style SMG",image:"Pp19.webp"},
+{name:"P90",category:"Submachine Gun",cartridge:"5.7x28mm FN",min:20,cost:130000,ammo:"5.7x28mm FN best available",style:"Bullpup bullet hose",image:"P90.webp"},
+{name:"SR-2M",category:"Submachine Gun",cartridge:"9x21mm Gyurza",min:20,cost:120000,ammo:"9x21mm Gyurza best available",style:"High-pen SMG",image:"SR2M.webp"},
+{name:"AKS-74U",category:"Assault Rifle",cartridge:"5.45x39mm",min:10,cost:55000,ammo:"5.45x39mm best available",style:"Compact fighter",image:"Aks74u.webp"},
+{name:"AKM",category:"Assault Rifle",cartridge:"7.62x39mm",min:15,cost:85000,ammo:"7.62x39mm best available",style:"Hard hitter",image:"Akm.webp"},
+{name:"M4A1",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:15,cost:95000,ammo:"5.56x45mm NATO best available",style:"NATO classic",image:"M4a1.webp"},
+{name:"ADAR 2-15",category:"Assault Carbine",cartridge:"5.56x45mm NATO",min:10,cost:65000,ammo:"5.56x45mm NATO best available",style:"Semi-auto precision",image:"ADAR2.webp"},
+{name:"AUG A1",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:18,cost:110000,ammo:"5.56x45mm NATO best available",style:"Bullpup classic",image:"AUG_A1.webp"},
+{name:"MDR 5.56",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:20,cost:130000,ammo:"5.56x45mm NATO best available",style:"Modern bullpup",image:"MDR.webp"},
+{name:"G36",category:"Assault Rifle",cartridge:"5.56x45mm NATO",min:20,cost:120000,ammo:"5.56x45mm NATO best available",style:"Polymer rifle",image:"G36.webp"},
+{name:"MCX .300 Blackout",category:"Assault Rifle",cartridge:".300 Blackout",min:30,cost:175000,ammo:".300 Blackout best available",style:"CajunVeteran special",image:"300_Blackout_MCX.webp"},
+{name:"RD-704",category:"Assault Rifle",cartridge:"7.62x39mm",min:30,cost:185000,ammo:"7.62x39mm best available",style:"AK beast",image:"RD-704.webp"},
+{name:"RPK-16",category:"Light Machine Gun",cartridge:"5.45x39mm",min:25,cost:140000,ammo:"5.45x39mm best available",style:"Squad support",image:"RPK-16.webp"},
+{name:"RFB",category:"Assault Carbine",cartridge:"7.62x51mm NATO",min:20,cost:110000,ammo:"7.62x51mm NATO best available",style:"Budget puncher",image:"KT_RFB.webp"},
+{name:"SA-58",category:"Assault Rifle",cartridge:"7.62x51mm NATO",min:37,cost:210000,ammo:"7.62x51mm NATO best available",style:"Recoil rodeo",image:"SA-58.webp"},
+{name:"RSASS",category:"Designated Marksman Rifle",cartridge:"7.62x51mm NATO",min:35,cost:240000,ammo:"7.62x51mm NATO best available",style:"High-end marksman",image:"Rsass.webp"}
 ];
-
-function weaponByName(name){
-  const n=String(name||"").toLowerCase();
-  return weapons.find(w=>w.name===name)
-    || weapons.find(w=>n.includes(w.name.toLowerCase()) || w.name.toLowerCase().includes(n))
-    || weapons.find(w=>{
-      const img=(w.image||"").toLowerCase().replace(/[^a-z0-9]/g,"");
-      const key=n.replace(/[^a-z0-9]/g,"");
-      return img.includes(key) || key.includes(img.replace("webp",""));
-    });
-}
-function enrichWeapon(w){
-  const match=weaponByName(w?.name);
-  return match?{...w,...match}:w;
-}
 const armor=[{name:"No armor",min:1,cost:0},{name:"PACA or soft armor",min:1,cost:25000},{name:"Class 3 armor",min:10,cost:45000},{name:"Class 4 armor",min:15,cost:85000},{name:"Class 5 armor",min:30,cost:140000}];
 const helmets=[{name:"No helmet",min:1,cost:0},{name:"Basic helmet",min:10,cost:25000},{name:"Class 4 helmet",min:15,cost:60000},{name:"Helmet with face shield",min:30,cost:120000}];
 const rigs=[{name:"Scav vest",cost:10000},{name:"Bank robber rig",cost:15000},{name:"Any small rig",cost:25000},{name:"Any medium rig",cost:35000},{name:"Any armored rig",cost:70000}];
@@ -163,22 +148,44 @@ function renderDashboard(){
   if(selectedContractIndex>=state.results.length)selectedContractIndex=0;
   const selected=state.results[selectedContractIndex];
   dashboardResults.className="dashboard-split";
-  dashboardResults.innerHTML=`<section class="card contract-roster-panel"><div class="contract-roster-title"><h3>Contract Roster</h3><span class="pill">${state.results.length}/${state.results.length} Ready</span></div><div class="contract-roster-list">${state.results.map((r,i)=>`<button class="contract-roster-item ${i===selectedContractIndex?'active':''}" data-contract-index="${i}"><span class="avatar">${esc((r.name||'?')[0])}</span><span class="roster-main"><strong>${esc(r.name)}</strong><span>Level ${r.level} · ${fmt(r.money)} · ${esc(enrichWeapon(r.weapon).category||"Weapon")} · ${esc(weapon.name)}</span></span><span class="roster-num">#${i+1}</span></button>`).join("")}</div><div class="selected-rule" style="margin-top:16px"><span>The Rule</span><b>You may mod your weapon however you want, but you must use the assigned gun.</b></div></section><section class="card selected-contract-panel">${selectedContractHtml(selected,selectedContractIndex)}</section>`;
+  dashboardResults.innerHTML=`<section class="card contract-roster-panel"><div class="contract-roster-title"><h3>Contract Roster</h3><span class="pill">${state.results.length}/${state.results.length} Ready</span></div><div class="contract-roster-list">${state.results.map((r,i)=>`<button class="contract-roster-item ${i===selectedContractIndex?'active':''}" data-contract-index="${i}"><span class="avatar">${esc((r.name||'?')[0])}</span><span class="roster-main"><strong>${esc(r.name)}</strong><span>Level ${r.level} · ${fmt(r.money)} · ${esc(weaponCategory(r.weapon))} · ${esc(r.weapon.name)}</span></span><span class="roster-num">#${i+1}</span></button>`).join("")}</div><div class="selected-rule" style="margin-top:16px"><span>The Rule</span><b>You may mod your weapon however you want, but you must use the assigned gun.</b></div></section><section class="card selected-contract-panel">${selectedContractHtml(selected,selectedContractIndex)}</section>`;
   document.querySelectorAll('[data-contract-index]').forEach(b=>b.onclick=()=>{selectedContractIndex=Number(b.dataset.contractIndex);renderDashboard()});
 }
 
 function gunImageFor(weaponName){
-  const weapon=weaponByName(weaponName);
-  return `images/guns/${weapon?.image||"default-rifle.webp"}`;
-}
-function weaponMetaHtml(r){
-  const weapon=enrichWeapon(r.weapon);
-  const category=esc(weapon.category||"Weapon");
-  const cartridge=esc(weapon.cartridge||weapon.ammo||"");
-  return `<div class="weapon-meta-row"><span>${category}</span><span>${cartridge}</span></div>`;
+  const name=String(weaponName||"").toLowerCase();
+  const map=[
+    ["mp-133","mp133"],
+    ["toz","toz106"],
+    ["mosin","mosin"],
+    ["op-sks","opsks"],
+    ["sks","sks"],
+    ["vpo-136","vpo136"],
+    ["kedr","kedr"],
+    ["mp5","mp5"],
+    ["aks-74u","aks74u"],
+    ["akm","akm"],
+    ["m4a1","m4a1"],
+    ["rfb","rfb"],
+    ["g36","g36"],
+    ["mpx","mpx"],
+    ["sr-2m","sr2m"],
+    ["sr2m","sr2m"],
+    ["rd-704","rd704"],
+    ["mcx","mcx"],
+    ["sa-58","sa58"],
+    ["sa58","sa58"],
+    ["rsass","rsass"]
+  ];
+  const found=map.find(([key])=>name.includes(key));
+  return `images/guns/${found?found[1]:"default-rifle"}.png`;
 }
 
-function selectedContractHtml(r,i){const weapon=enrichWeapon(r.weapon);const gunImg=gunImageFor(weapon.name);return `<div class="selected-top"><div><span class="roster-num">#${i+1}</span><h3>${esc(r.name)}</h3><div class="selected-meta"><span>Level ${r.level}</span><span>${fmt(r.money)}</span></div></div></div><div class="weapon-hero weapon-hero-with-image"><div class="weapon-copy"><span>Assigned Weapon</span><h4>${esc(weapon.name)}</h4>${weaponMetaHtml({weapon})}<p>${esc(weapon.style)} · ${esc(weapon.cartridge||weapon.ammo)}</p><b class="yellow">Mod it however you want, but it must stay this gun.</b></div><div class="weapon-image-wrap"><img class="weapon-image" src="${gunImg}" alt="${esc(weapon.name)} image" onerror="this.onerror=null;this.src='images/guns/default-rifle.webp';"></div></div><div class="selected-gear-grid"><div class="selected-gear"><span>Armor</span><b>${esc(r.armor.name)}</b></div><div class="selected-gear"><span>Helmet</span><b>${esc(r.helmet.name)}</b></div><div class="selected-gear"><span>Rig</span><b>${esc(r.rig.name)}</b></div><div class="selected-gear"><span>Backpack</span><b>${esc(r.bag.name)}</b></div></div><div class="selected-bottom"><div class="selected-cost"><span>Estimated Kit Cost</span><b>${fmt(r.total)}</b></div><div class="selected-twist"><span>Contract Twist</span><b>${esc(r.challenge)}</b></div><div class="selected-rule"><span>The Rule</span><b>You may mod your weapon however you want, but you must use the assigned gun.</b></div></div>`}
+function selectedContractHtml(r,i){
+  const weapon=lookupWeapon(r.weapon);
+  const gunImg=gunImageFor(weapon.name||r.weapon.name);
+  return `<div class="selected-top"><div><span class="roster-num">#${i+1}</span><h3>${esc(r.name)}</h3><div class="selected-meta"><span>Level ${r.level}</span><span>${fmt(r.money)}</span></div></div></div><div class="weapon-hero weapon-hero-with-image"><div class="weapon-copy"><span>Assigned Weapon</span><h4>${esc(weapon.name||r.weapon.name)}</h4><div class="weapon-meta-row"><span>${esc(weaponCategory(weapon))}</span><span>${esc(weaponCartridge(weapon))}</span></div><p>${esc(weaponStyle(weapon))} · ${esc(weaponCartridge(weapon))} best available</p><b class="yellow">Mod it however you want, but it must stay this gun.</b></div><div class="weapon-image-wrap"><img class="weapon-image" src="${gunImg}" alt="${esc(weapon.name||r.weapon.name)} image" onerror="this.onerror=null;this.src='images/guns/default-rifle.webp';"></div></div><div class="selected-gear-grid"><div class="selected-gear"><span>Armor</span><b>${esc(r.armor.name)}</b></div><div class="selected-gear"><span>Helmet</span><b>${esc(r.helmet.name)}</b></div><div class="selected-gear"><span>Rig</span><b>${esc(r.rig.name)}</b></div><div class="selected-gear"><span>Backpack</span><b>${esc(r.bag.name)}</b></div></div><div class="selected-bottom"><div class="selected-cost"><span>Estimated Kit Cost</span><b>${fmt(r.total)}</b></div><div class="selected-twist"><span>Contract Twist</span><b>${esc(r.challenge)}</b></div><div class="selected-rule"><span>The Rule</span><b>You may mod your weapon however you want, but you must use the assigned gun.</b></div></div>`
+}
 function renderReport(){const events=allEvents();const codes=Object.keys(events).sort();const eventSection=!codes.length?'<div class="results-empty">No events saved yet.</div>':codes.map(code=>{const e=events[code];const players=e.players||[];const playing=players.filter(p=>p.active!==false);const out=players.filter(p=>p.active===false);return `<article class="event-report-card"><div class="event-report-head"><div><h3>${esc(code)}</h3><div class="event-report-meta">${esc(e.eventName||"Friday Night Mayhem")} · ${esc(e.map||"Customs")} · ${esc(e.time||"Day")} · ${players.length} names</div></div><div class="event-actions-cell"><button class="action-btn" data-report-load="${code}">Load</button><button class="action-btn danger-btn" data-report-delete="${code}">Delete Event</button></div></div><div class="report-columns"><div class="report-list"><h4>Playing (${playing.length})</h4>${listNames(playing)}</div><div class="report-list"><h4>Not Playing (${out.length})</h4>${listNames(out)}</div></div></article>`}).join("");const streamerSection=`<div class="section-break"><h3>Streamer List <span class="count">${profiles.length}</span></h3></div>`+profiles.map(prof=>{let assigned=[];codes.forEach(code=>{let ep=(events[code].players||[]).find(p=>p.profileId===prof.id||p.name===prof.name);if(ep)assigned.push({code,player:ep,event:events[code]})});return `<article class="event-report-card"><div class="event-report-head"><div><h3>${esc(prof.name)}</h3><div class="event-report-meta">Default: Level ${prof.level||1} · ${fmt(prof.money||100000)} · Assigned to ${assigned.length} events</div></div></div>${assigned.length?`<div class="report-list"><ul>${assigned.map(a=>`<li><strong>${esc(a.code)}</strong> <span class="small-muted">${esc(a.event.eventName||'Friday Night Mayhem')} · ${a.player.active===false?'Not Playing':'Playing'} · L${a.player.level} · ${fmt(a.player.money)}</span> <button class="action-btn danger-btn" data-remove-assignment="${a.code}|${a.player.id}">Remove From Event</button></li>`).join('')}</ul></div>`:'<div class="small-muted">Not assigned to any events.</div>'}</article>`}).join('');reportArea.innerHTML=`<h3>Event List</h3>${eventSection}${streamerSection}`;document.querySelectorAll('[data-report-load]').forEach(b=>b.onclick=()=>{switchEvent(b.dataset.reportLoad);setView('admin')});document.querySelectorAll('[data-report-delete]').forEach(b=>b.onclick=()=>deleteEvent(b.dataset.reportDelete));document.querySelectorAll('[data-remove-assignment]').forEach(b=>b.onclick=()=>{const [code,id]=b.dataset.removeAssignment.split('|');removeAssignmentFromEvent(code,id)})}
 function removeAssignmentFromEvent(code,id){let events=allEvents();let e=events[code];if(!e)return;let p=(e.players||[]).find(x=>x.id===id);if(!p)return;if(!confirm(`Remove ${p.name} from event ${code}? Streamer name stays in the system.`))return;e.players=e.players.filter(x=>x.id!==id);events[code]=e;saveEvents(events);if(code===currentEventCode){state=e;state.eventCode=code}render()}
 function listNames(players){return players.length?`<ul>${players.map(p=>`<li>${esc(p.name)} <span class="small-muted">L${p.level} · ${fmt(p.money)}</span></li>`).join("")}</ul>`:'<div class="small-muted">None</div>'}
