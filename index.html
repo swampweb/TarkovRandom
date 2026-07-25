@@ -94,7 +94,20 @@
         </section>
       </section>
       <section id="dashboard" class="view">
-        <section class="card dashboard-head"><div><span class="muted">Dashboard</span><h2 id="dashTitle">Customs - Day Raid</h2><p id="squadRule" class="yellow"></p><small id="rolledAt" class="muted"></small></div><div class="dash-actions"><button class="ghost" data-view="admin">Admin</button><button id="dashRerollBtn" class="ghost">↻ Reroll</button><button id="copyBtn" class="light">Copy Results</button></div></section>
+        <section class="card dashboard-head dashboard-head-clean">
+          <div>
+            <span class="muted">Dashboard</span>
+            <h2 id="dashTitle">Customs - Day Raid</h2>
+            <div class="dash-meta-row">
+              <span class="dash-chip"><b>Event</b> <span id="dashEventCode">CV7264</span></span>
+              <span class="dash-chip"><b>Twist</b> <span id="dashTwistMode">One Twist Per Streamer</span></span>
+              <span class="dash-chip"><b>Status</b> <span id="dashStatus">Not Rolled</span></span>
+            </div>
+            <p id="squadRule" class="yellow"></p>
+            <small id="rolledAt" class="muted"></small>
+          </div>
+          <div class="dash-actions"><button class="ghost" data-view="admin">Admin</button><button id="dashRerollBtn" class="ghost">↻ Reroll</button><button id="copyBtn" class="light">Copy Results</button></div>
+        </section>
         <section id="dashboardResults" class="results-empty">No contracts assigned yet. Admin must click <b>Randomize Loadouts</b>.</section>
       </section>
       <section id="report" class="view">
@@ -104,7 +117,7 @@
         </section>
       </section>
     </main>
-    <footer>Cajun's Tarkov Contracts <span>Event Manager v6 Streamer Manage</span></footer>
+    <footer>Cajun's Tarkov Contracts <span>Dashboard Layout v1</span></footer>
   </div>
   <script src="script.js"></script>
 </body>
