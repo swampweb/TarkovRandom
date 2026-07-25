@@ -219,3 +219,31 @@
 .weapon-copy p{
   line-height:1.35;
 }
+
+
+/* v4 fix: show full cartridge/category for older rolled contracts and fit small WEBP images */
+.weapon-image-wrap{
+  min-height:220px!important;
+  padding:14px!important;
+  background:#050505!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.weapon-image{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:205px!important;
+  object-fit:contain!important;
+  transform:none!important;
+  mix-blend-mode:normal!important;
+  filter:contrast(1.12) saturate(1.08) drop-shadow(0 16px 16px rgba(0,0,0,.45))!important;
+}
+.weapon-meta-row span:first-child{
+  color:#f2f0e8!important;
+  border-color:rgba(127,179,72,.35)!important;
+  background:rgba(127,179,72,.11)!important;
+}
+@media(max-width:1100px){.weapon-image{max-height:190px!important}}
+@media(max-width:650px){.weapon-image{max-height:145px!important}}
