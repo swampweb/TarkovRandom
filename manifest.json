@@ -1,0 +1,27 @@
+{
+  "folder": "images/guns",
+  "source": "AI-generated corrected weapon-shape grid, cropped into individual generic gun-style images.",
+  "note": "Generic AI-generated images. Not official Tarkov assets.",
+  "files": [
+    "default-rifle.png",
+    "mp133.png",
+    "toz106.png",
+    "mosin.png",
+    "sks.png",
+    "vpo136.png",
+    "kedr.png",
+    "mp5.png",
+    "aks74u.png",
+    "opsks.png",
+    "akm.png",
+    "m4a1.png",
+    "rfb.png",
+    "g36.png",
+    "mpx.png",
+    "sr2m.png",
+    "rd704.png",
+    "mcx.png",
+    "sa58.png",
+    "rsass.png"
+  ]
+}
